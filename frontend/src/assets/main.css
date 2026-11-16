@@ -168,6 +168,10 @@ a {
    Tables (wrapped so wide tables scroll inside their card on small screens)
    ========================================================================== */
 .table-wrap {
+    /* position: relative keeps absolutely positioned screen-reader-only text
+       (e.g. the hidden "Actions" header) inside this scroll box. Without it,
+       that text is positioned against the page and makes phones scroll sideways. */
+    position: relative;
     overflow-x: auto;
     border: 1px solid var(--color-border);
     border-radius: var(--radius);
@@ -187,7 +191,9 @@ a {
     vertical-align: middle;
 }
 
-.table th {
+/* Column headers only. Row headers (<th scope="row"> in tbody, e.g. a student's
+   name) keep normal text so names aren't shown in capitals. */
+.table thead th {
     background: var(--color-surface-muted);
     color: var(--color-text-muted);
     font-size: 0.8rem;
@@ -197,6 +203,11 @@ a {
     white-space: nowrap;
 }
 
+.table tbody th {
+    font-weight: 600;
+}
+
+.table tbody tr:last-child th,
 .table tbody tr:last-child td {
     border-bottom: 0;
 }

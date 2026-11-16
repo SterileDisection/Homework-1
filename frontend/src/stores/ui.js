@@ -10,10 +10,14 @@ export const useUiStore = defineStore('ui', () => {
     // ----- Toast notifications -----
     const toasts = ref([]);
     let nextId = 1;
+    const MAX_TOASTS = 3; // keep the stack short so it never covers the page
 
     function notify(message, type = 'success', timeout = 5000) {
         const id = nextId++;
         toasts.value.push({ id, message, type });
+        if (toasts.value.length > MAX_TOASTS) {
+            toasts.value = toasts.value.slice(-MAX_TOASTS); // drop the oldest
+        }
         if (timeout) {
             setTimeout(() => dismiss(id), timeout);
         }

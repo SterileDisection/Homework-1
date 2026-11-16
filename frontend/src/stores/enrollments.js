@@ -20,15 +20,21 @@ export const useEnrollmentsStore = defineStore('enrollments', () => {
 
     const sortByName = (list) => list.sort((a, b) => a.name.localeCompare(b.name));
 
+    // If the user switches courses quickly, only the most recent request may
+    // update the loading/error state (an older, slower response is ignored).
+    let latestRequest = 0;
+
     async function fetchRoster(courseId) {
+        const requestId = ++latestRequest;
         loadingRoster.value = true;
         rosterError.value = null;
         try {
-            rosters.value[courseId] = await coursesApi.roster(courseId);
+            const roster = await coursesApi.roster(courseId);
+            rosters.value[courseId] = roster;
         } catch (err) {
-            rosterError.value = err.message;
+            if (requestId === latestRequest) rosterError.value = err.message;
         } finally {
-            loadingRoster.value = false;
+            if (requestId === latestRequest) loadingRoster.value = false;
         }
     }
 
