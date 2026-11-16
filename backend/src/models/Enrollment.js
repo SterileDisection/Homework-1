@@ -16,7 +16,7 @@ const enrollmentSchema = new mongoose.Schema(
             required: [true, 'Course is required'],
         },
     },
-    { timestamps: true }
+    { timestamps: true, toJSON: { versionKey: false } }
 );
 
 // A student can be enrolled in a given course only once. MongoDB enforces this

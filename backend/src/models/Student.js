@@ -31,7 +31,10 @@ const studentSchema = new mongoose.Schema(
             match: [/^\d{5}(-\d{4})?$/, 'ZIP code must be 5 digits (or ZIP+4, e.g. 77001-1234)'],
         },
     },
-    { timestamps: true } // adds createdAt / updatedAt
+    {
+        timestamps: true, // adds createdAt / updatedAt
+        toJSON: { versionKey: false }, // hide Mongoose's internal __v field in API responses
+    }
 );
 
 // Lets us search students by name efficiently.

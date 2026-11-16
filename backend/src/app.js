@@ -15,7 +15,10 @@ app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', database: states[mongoose.connection.readyState] || 'unknown' });
 });
 
-// Part 2: student, course, and enrollment routes are mounted here.
+app.use('/api/students', require('./routes/students'));
+app.use('/api/courses', require('./routes/courses'));
+app.use('/api/enrollments', require('./routes/enrollments'));
+
 // Part 5: the built Vue app is served here.
 
 // Must come after all routes.

@@ -17,7 +17,7 @@ const courseSchema = new mongoose.Schema(
             maxlength: [150, 'Course name must be 150 characters or fewer'],
         },
     },
-    { timestamps: true }
+    { timestamps: true, toJSON: { versionKey: false } }
 );
 
 module.exports = mongoose.model('Course', courseSchema);
