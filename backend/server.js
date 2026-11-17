@@ -1,3 +1,4 @@
+const fs = require('fs');
 const path = require('path');
 
 // Load backend/.env no matter which folder the server is started from.
@@ -20,6 +21,9 @@ async function start() {
 
     const server = app.listen(PORT, () => {
         console.log(`Server is running on http://localhost:${PORT}`);
+        if (!fs.existsSync(path.join(app.distDir, 'index.html'))) {
+            console.warn('Warning: frontend/dist was not found. Run "npm run build" so the app can be served.');
+        }
     });
 
     server.on('error', (error) => {
