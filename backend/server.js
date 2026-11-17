@@ -19,7 +19,10 @@ async function start() {
         process.exit(1);
     }
 
-    const server = app.listen(PORT, () => {
+    const server = app.listen(PORT, (error) => {
+        // Express 5 also calls this callback when listening fails (e.g. port in use).
+        // That case is reported by the 'error' handler below, so don't claim success.
+        if (error) return;
         console.log(`Server is running on http://localhost:${PORT}`);
         if (!fs.existsSync(path.join(app.distDir, 'index.html'))) {
             console.warn('Warning: frontend/dist was not found. Run "npm run build" so the app can be served.');
