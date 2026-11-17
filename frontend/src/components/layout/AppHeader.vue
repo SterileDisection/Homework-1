@@ -15,7 +15,12 @@ const links = [
     <header class="app-header">
         <div class="container app-header__inner">
             <RouterLink :to="{ name: 'home' }" class="brand">
-                <img src="/favicon.svg" alt="" class="brand__logo" width="32" height="32" />
+                <!-- White tile with a red graduation cap, so it stands out on the red header. -->
+                <svg class="brand__logo" viewBox="0 0 32 32" width="32" height="32" aria-hidden="true">
+                    <rect width="32" height="32" rx="7" fill="#fff" />
+                    <path d="M16 7 4 13l12 6 10-5v7h2v-8z" fill="currentColor" />
+                    <path d="M9 17.5V22c0 1.7 3.1 3 7 3s7-1.3 7-3v-4.5l-7 3.5z" fill="currentColor" />
+                </svg>
                 <span class="brand__name">Student Management</span>
             </RouterLink>
 
@@ -33,13 +38,19 @@ const links = [
 </template>
 
 <style scoped>
+/* UH Red header bar with white text. */
 .app-header {
     position: sticky;
     top: 0;
     z-index: 50;
-    background: var(--color-surface);
-    border-bottom: 1px solid var(--color-border);
-    box-shadow: var(--shadow-sm);
+    background: var(--color-header-bg);
+    color: var(--color-on-header);
+    box-shadow: var(--shadow);
+}
+
+/* The default focus ring is red, which would vanish on the red bar. */
+.app-header :focus-visible {
+    outline-color: var(--color-on-header);
 }
 
 .app-header__inner {
@@ -57,10 +68,15 @@ const links = [
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    color: var(--color-text);
+    color: var(--color-on-header);
     font-weight: 700;
     font-size: 1.05rem;
     text-decoration: none;
+}
+
+.brand__logo {
+    flex: none;
+    color: var(--color-header-bg); /* the cap matches the header red */
 }
 
 .nav {
@@ -78,20 +94,21 @@ const links = [
     min-height: 2.5rem;
     padding: 0 var(--space-3);
     border-radius: var(--radius-sm);
-    color: var(--color-text-muted);
+    color: var(--color-on-header);
     font-weight: 500;
     text-decoration: none;
 }
 
 .nav__link:hover {
-    background: var(--color-surface-muted);
-    color: var(--color-text);
+    background: rgb(255 255 255 / 16%);
 }
 
-.nav__link--active {
-    background: var(--color-primary-soft);
-    color: var(--color-primary);
-    font-weight: 600;
+/* Current page: white tab with red text. */
+.nav__link--active,
+.nav__link--active:hover {
+    background: #fff;
+    color: var(--color-header-bg);
+    font-weight: 700;
 }
 
 /* Phones: brand on top, nav links spread across the full width below. */
